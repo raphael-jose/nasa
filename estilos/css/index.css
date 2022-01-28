@@ -1,0 +1,237 @@
+/* area de busca*/
+
+:root {
+    --nasa-blue: #3cff00;
+    --gray: rgb(39, 39, 39);
+    --heart-color: rgb(190, 27, 27);
+    --white: #2dff04;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+      min-height: 84vh;
+    max-height: max-content;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    height: 10vh;
+    padding: 0 100px;
+}
+
+.logo{
+    align-self: center;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.homer{
+display: flex;
+justify-content: center;
+align-items: center;
+align-self: center;
+}
+ head .img{
+    display: flex;
+    position: absolute;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+     width: 14%;
+
+ }
+.logo h1 {
+    font-family: 'impact';
+    color: rgb(232, 248, 8);
+}
+header .busca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header .busca p {
+    color: #bebebe;
+    font-weight: 500;
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 3px;
+}
+header .busca > div {
+    display: flex;
+}
+
+header .busca input, header .busca button {
+    background-color: rgb(255, 255, 255);
+    height: 35px;
+    border: none;
+    font-weight: 600;
+    color: blue;
+    text-align: center;
+    outline: none;
+}
+
+header .busca input {
+    border-radius: 5px 0 0 5px;
+}
+
+header .busca button {
+    background-color: #fffb01;
+    border-radius: 0 5px 5px 0;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: .3s ease background-color;
+}
+
+header .busca button:hover {
+    background-color: var(--nasa-blue);
+}
+
+header .busca input:focus {
+    border-bottom: 2px solid rgb(51, 243, 2);
+    filter: brightness(100%);
+}
+header {
+    display: flex;
+    justify-content: center;
+}
+
+.container h1 {
+    font-size: 24px;
+    margin: 15px 0 5px 0;
+    color: #fafafa;
+    text-shadow: 2px 2px 5px rgba(0,0,0,.6);
+}
+
+.container h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fafafa;
+    margin-bottom: 10px;
+    text-shadow: 1px 2px 3px rgba(0,0,0,.6);
+}
+
+.container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.img-apod {
+    width: 650px;
+}
+
+
+footer {
+    background-color: black;
+    height: 6vh;
+    color: #34fd02;
+    display: grid;
+    place-items: center;
+}
+
+footer a, footer a:visited {
+    color: var(--white);
+    text-decoration: none;
+    transition: .3s color;
+}
+
+footer a:hover {
+    color: #f8d40a;
+    text-decoration: NONE;
+}
+
+
+
+/* barra de navegação lateral*/
+
+body {
+    background-image: url("https://cutewallpaper.org/21/galaxy-gif-background/Space-Animation-Background-on-Make-a-GIF.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+	margin: 0;
+	padding: 0;
+	font-family: 'impact', sans-serif;
+	
+}
+nav ul {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 260px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: black;
+}
+nav ul li {
+	list-style: none;
+}
+nav ul li a {
+	display: block;
+	font-family: 'Montserrat', sans-serif;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 20px;
+	color: rgb(7, 252, 7);
+	position: relative;
+	padding: 25px 0 25px 38px;
+}
+nav ul li a:before {
+	content: '';
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 0%;
+	height: 100%;
+	background: #ddf507;
+	border-radius: 40px 0px 0px 40px;
+	z-index: -1;
+	transition: all 300ms ease-in-out;
+}
+nav ul li a:hover {
+	color: #2b2626;
+}
+nav ul li a:hover:before {
+	width: 95%;
+}
+.wrapper {
+	margin-left: 260px;
+}
+.section {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	text-align: center;
+}
+.box-area h2 {
+	text-transform: uppercase;
+	font-size: 50px;
+}
+.box-area p {
+	line-height: 2;
+}
+.box-area {
+	width: 75%;
+}
+.logo {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 25px auto;
+}
+.logo img {
+	width: 100%;
+}
