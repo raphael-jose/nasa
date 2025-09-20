@@ -1,0 +1,494 @@
+/* Estilos melhorados para o projeto NASA APOD */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-blue: #0066cc;
+    --accent-green: #00ff88;
+    --dark-bg: #0a0a0a;
+    --card-bg: rgba(15, 15, 30, 0.95);
+    --text-light: #ffffff;
+    --text-gray: #b0b0b0;
+    --nasa-red: #fc3d21;
+    --gradient-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    --shadow-glow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--gradient-bg);
+    background-attachment: fixed;
+    color: var(--text-light);
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: -1;
+}
+
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--accent-green);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.logo {
+    position: absolute;
+    left: 280px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    color: var(--accent-green);
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.busca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.busca > div {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.busca input {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    color: var(--text-light);
+    font-size: 14px;
+    outline: none;
+    border-radius: 20px 0 0 20px;
+    min-width: 150px;
+}
+
+.busca button {
+    background: linear-gradient(45deg, var(--primary-blue), var(--accent-green));
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.busca button:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+.busca p {
+    color: var(--text-gray);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Navigation Styles */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 30, 0.95) 100%);
+    backdrop-filter: blur(15px);
+    border-right: 2px solid var(--accent-green);
+    z-index: 999;
+    transition: transform 0.3s ease;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+nav .logo {
+    position: relative;
+    left: 0;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+nav .logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-green);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+nav ul li a {
+    display: block;
+    padding: 20px 25px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav ul li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+nav ul li a:hover {
+    color: var(--accent-green);
+    border-left-color: var(--accent-green);
+    background: rgba(0, 255, 136, 0.1);
+}
+
+nav ul li a:hover::before {
+    left: 100%;
+}
+
+/* Main Content */
+.container {
+    margin-left: 260px;
+    margin-top: 80px;
+    padding: 40px;
+    min-height: calc(100vh - 80px);
+}
+
+.container h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 32px;
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.container h2 {
+    text-align: center;
+    color: var(--accent-green);
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+.apod-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.apod-img {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.loading {
+    color: var(--accent-green);
+    font-size: 18px;
+    text-align: center;
+    padding: 60px 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.img-apod {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.img-apod:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+}
+
+.apod-description {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    height: fit-content;
+}
+
+.apod-description h3 {
+    color: var(--accent-green);
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--accent-green);
+    padding-bottom: 10px;
+}
+
+.apod-description p {
+    color: var(--text-light);
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 25px;
+    text-align: justify;
+    font-weight: 300;
+}
+
+.apod-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.data-info, .copyright-info {
+    color: var(--text-gray);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.data-info::before {
+    content: "📅";
+    font-size: 16px;
+}
+
+.copyright-info::before {
+    content: "©️";
+    font-size: 16px;
+}
+
+/* Footer */
+footer {
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 2px solid var(--accent-green);
+    padding: 20px;
+    text-align: center;
+    color: var(--text-gray);
+    margin-left: 260px;
+}
+
+footer a {
+    color: var(--accent-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--text-light);
+    text-shadow: 0 0 10px var(--accent-green);
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background: linear-gradient(45deg, var(--primary-blue), var(--accent-green));
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .apod-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .container {
+        margin-left: 200px;
+        padding: 30px 20px;
+    }
+    
+    nav {
+        width: 200px;
+    }
+    
+    .logo {
+        left: 220px;
+    }
+    
+    footer {
+        margin-left: 200px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    nav {
+        transform: translateX(-100%);
+        width: 280px;
+    }
+    
+    nav.active {
+        transform: translateX(0);
+    }
+    
+    .container {
+        margin-left: 0;
+        margin-top: 70px;
+        padding: 20px 15px;
+    }
+    
+    .logo {
+        position: relative;
+        left: 0;
+    }
+    
+    header {
+        height: 70px;
+        justify-content: space-between;
+        padding: 0 60px 0 20px;
+    }
+    
+    .container h1 {
+        font-size: 24px;
+    }
+    
+    .container h2 {
+        font-size: 18px;
+    }
+    
+    .apod-description {
+        padding: 20px;
+    }
+    
+    .busca > div {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+    
+    .busca input, .busca button {
+        border-radius: 8px;
+        width: 100%;
+    }
+    
+    footer {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        height: 60px;
+        padding: 0 50px 0 15px;
+    }
+    
+    .container {
+        margin-top: 60px;
+        padding: 15px 10px;
+    }
+    
+    .container h1 {
+        font-size: 20px;
+    }
+    
+    .container h2 {
+        font-size: 16px;
+    }
+    
+    .apod-description p {
+        font-size: 14px;
+    }
+    
+    nav {
+        width: 260px;
+    }
+}

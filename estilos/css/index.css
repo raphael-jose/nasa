@@ -6,12 +6,42 @@
     --heart-color: rgb(190, 27, 27);
     --white: #2dff04;
 }
+
+/* Logo da NASA no topo do navbar */
+.nasa-logo-container {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px;
+    border-radius: 50%;
+    z-index: 1001;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.nasa-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+    transition: transform 0.3s ease;
+}
+
+.nasa-logo:hover {
+    transform: scale(1.1);
+}
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
     font-family: 'Montserrat', sans-serif;
+}
+
+html {
+    font-size: 16px;
 }
 
 .container {
@@ -22,161 +52,339 @@
 header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: black;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 50, 0.95));
+    backdrop-filter: blur(15px);
     height: 10vh;
-    padding: 0 100px;
+    padding: 0 40px;
+    position: relative;
+    z-index: 1000;
+    border-bottom: 2px solid rgba(52, 253, 2, 0.3);
 }
 
-.logo{
-    align-self: center;
-    color: red;
+.titulo-principal {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
-.homer{
-display: flex;
-justify-content: center;
-align-items: center;
-align-self: center;
+.titulo-principal h1 {
+    color: #00ff88;
+    font-family: 'Orbitron', monospace;
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+    margin: 0;
+    text-align: center;
 }
- head .img{
-    display: flex;
-    position: absolute;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-     width: 14%;
 
- }
-.logo h1 {
-    font-family: 'impact';
-    color: rgb(232, 248, 8);
-}
 header .busca {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-header .busca p {
-    color: #bebebe;
-    font-weight: 500;
-    font-size: 11px;
-    font-style: italic;
-    margin-top: 3px;
-}
-header .busca > div {
-    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
 }
 
-header .busca input, header .busca button {
-    background-color: rgb(255, 255, 255);
-    height: 35px;
-    border: none;
-    font-weight: 600;
-    color: blue;
-    text-align: center;
-    outline: none;
+header .busca > div {
+    display: flex;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 50, 0.7));
+    border-radius: 20px;
+    padding: 6px;
+    border: 2px solid rgba(0, 255, 136, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 header .busca input {
-    border-radius: 5px 0 0 5px;
-}
-
-header .busca button {
-    background-color: #fffb01;
-    border-radius: 0 5px 5px 0;
-    padding: 0 15px;
-    cursor: pointer;
-    transition: .3s ease background-color;
-}
-
-header .busca button:hover {
-    background-color: var(--nasa-blue);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 8px 15px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    border-radius: 15px 0 0 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    min-width: 140px;
 }
 
 header .busca input:focus {
-    border-bottom: 2px solid rgb(51, 243, 2);
-    filter: brightness(100%);
-}
-header {
-    display: flex;
-    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.3);
+    transform: scale(1.02);
 }
 
-.container h1 {
-    font-size: 24px;
-    margin: 15px 0 5px 0;
-    color: #fafafa;
-    text-shadow: 2px 2px 5px rgba(0,0,0,.6);
+header .busca button {
+    background: linear-gradient(45deg, #00ff88, #0066cc);
+    border: none;
+    padding: 8px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 15px 15px 0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 255, 136, 0.3);
+}
+
+header .busca button:hover {
+    background: linear-gradient(45deg, #00cc70, #0052a3);
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.5);
 }
 
 .container h2 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
-    color: #fafafa;
-    margin-bottom: 10px;
-    text-shadow: 1px 2px 3px rgba(0,0,0,.6);
+    color: #00ff88;
+    margin-bottom: 20px;
+    text-shadow: 1px 2px 5px rgba(0,0,0,0.8);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 50, 0.7));
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    font-style: italic;
 }
 
 .container {
+    margin-left: 260px;
+    padding: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.apod-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 20px;
+    align-items: start;
+}
+
+.apod-img {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.loading {
+    color: #34fd02;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 .img-apod {
-    width: 650px;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-footer {
-    background-color: black;
-    height: 6vh;
-    color: #34fd02;
-    display: grid;
-    place-items: center;
+.img-apod:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(52, 253, 2, 0.3);
 }
 
-footer a, footer a:visited {
-    color: var(--white);
-    text-decoration: none;
-    transition: .3s color;
+.apod-description {
+    background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(20,20,50,0.9));
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    text-align: left;
+    backdrop-filter: blur(15px);
+    position: relative;
 }
 
-footer a:hover {
-    color: #f8d40a;
-    text-decoration: NONE;
+.apod-description::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.05), transparent);
+    border-radius: 15px;
+    pointer-events: none;
 }
 
+.apod-description h3 {
+    color: #00ff88;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    border-bottom: 2px solid rgba(0, 255, 136, 0.3);
+    padding-bottom: 10px;
+}
 
+.apod-description p {
+    color: #ffffff;
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: justify;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    font-weight: 400;
+}
 
-/* barra de navegação lateral*/
+/* Estilos para vídeos */
+.video-container {
+    position: relative;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
 
+.apod-video {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: 12px;
+}
+
+.media-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 255, 136, 0.9);
+    color: black;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Estilos para mensagens de erro */
+.error-message {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 100, 100, 0.1));
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.error-message h4 {
+    color: #ff6b6b;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.error-message p {
+    color: #ffcccc;
+    margin-bottom: 8px;
+}
+
+.error-message small {
+    color: #ff9999;
+    font-size: 12px;
+}
+
+.apod-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #34fd02;
+}
+
+.data-info, .copyright-info {
+    color: #bebebe;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.data-info::before {
+    content: "📅 ";
+    margin-right: 5px;
+}
+
+.copyright-info::before {
+    content: "©️ ";
+    margin-right: 5px;
+}
+
+/* Barra de navegação lateral */
 body {
     background-image: url("https://cutewallpaper.org/21/galaxy-gif-background/Space-Animation-Background-on-Make-a-GIF.gif");
     background-repeat: no-repeat;
     background-size: cover;
-	margin: 0;
-	padding: 0;
-	font-family: 'impact', sans-serif;
-	
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
 }
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+    background-color: black;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    margin-top: 30px;
+}
+
 nav ul {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	width: 260px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: black;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
 }
+
 nav ul li {
 	list-style: none;
+	position: relative;
+	overflow: hidden;
+}
+
+nav ul li::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(255, 235, 59, 0.3), transparent);
+	transition: left 0.6s ease;
+	z-index: 1;
+	pointer-events: none;
+}
+
+nav ul li:hover::after {
+	left: 100%;
 }
 nav ul li a {
 	display: block;
@@ -187,7 +395,9 @@ nav ul li a {
 	color: rgb(7, 252, 7);
 	position: relative;
 	padding: 25px 0 25px 38px;
+	transition: all 0.3s ease;
 }
+
 nav ul li a:before {
 	content: '';
 	position: absolute;
@@ -195,19 +405,43 @@ nav ul li a:before {
 	right: 0px;
 	width: 0%;
 	height: 100%;
-	background: #ddf507;
+	background: linear-gradient(45deg, #ffeb3b, #ffd700);
 	border-radius: 40px 0px 0px 40px;
 	z-index: -1;
-	transition: all 300ms ease-in-out;
+	transition: all 400ms ease-in-out;
+	box-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
 }
+
 nav ul li a:hover {
-	color: #2b2626;
+	color: #000000;
+	font-weight: bold;
+	text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+	transform: translateX(5px);
+	border-left: 3px solid #ffd700;
+	letter-spacing: 1px;
 }
+
 nav ul li a:hover:before {
 	width: 95%;
+	box-shadow: 0 0 20px rgba(255, 235, 59, 0.8);
+	animation: yellowGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes yellowGlow {
+	0% {
+		box-shadow: 0 0 20px rgba(255, 235, 59, 0.8);
+	}
+	100% {
+		box-shadow: 0 0 30px rgba(255, 235, 59, 1), inset 0 0 10px rgba(255, 215, 0, 0.3);
+	}
 }
 .wrapper {
 	margin-left: 260px;
+}
+
+.container {
+    margin-left: 260px;
+    padding: 20px;
 }
 .section {
 	display: grid;
@@ -234,4 +468,254 @@ nav ul li a:hover:before {
 }
 .logo img {
 	width: 100%;
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #34fd02;
+    font-size: 24px;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+}
+
+/* RESPONSIVIDADE - MEDIA QUERIES */
+
+/* Tablets e telas médias */
+@media screen and (max-width: 1024px) {
+    header {
+        padding: 0 15px;
+    }
+    
+    .container {
+        margin-left: 200px;
+        padding: 15px;
+    }
+    
+    nav {
+        width: 200px;
+    }
+    
+    .wrapper {
+        margin-left: 200px;
+    }
+    
+    .apod-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .img-apod {
+        max-width: 90%;
+        width: 500px;
+    }
+    
+    nav ul li a {
+        font-size: 18px;
+        padding: 20px 0 20px 30px;
+    }
+}
+
+/* Smartphones e telas pequenas */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .nasa-logo-container {
+        top: -50px;
+    }
+    
+    .nasa-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    header {
+        flex-direction: column;
+        padding: 10px 20px;
+        height: auto;
+        gap: 10px;
+    }
+    
+    .titulo-principal h1 {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+    
+    header .busca {
+        align-items: center;
+    }
+    
+    header .busca input {
+        min-width: 120px;
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    
+    header .busca button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    nav {
+        transform: translateX(-100%);
+        width: 250px;
+        margin-top: 20px;
+    }
+    
+    nav.active {
+        transform: translateX(0);
+    }
+    
+    .container {
+        margin-left: 0;
+        padding: 10px;
+    }
+    
+    .wrapper {
+        margin-left: 0;
+    }
+    
+    header {
+        padding: 0 10px;
+        height: 8vh;
+    }
+    
+    .container {
+        min-height: 86vh;
+    }
+    
+    footer {
+        height: 6vh;
+    }
+    
+    .container h1 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+    
+    .container h2 {
+        font-size: 14px;
+    }
+    
+    .apod-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .img-apod {
+        max-width: 95%;
+        width: 100%;
+    }
+    
+    .apod-description {
+        padding: 20px;
+    }
+    
+    .apod-description h3 {
+        font-size: 18px;
+    }
+    
+    .apod-description p {
+        font-size: 14px;
+    }
+    
+    header .busca input, header .busca button {
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    header .busca p {
+        font-size: 10px;
+    }
+    
+    nav ul li a {
+        font-size: 16px;
+        padding: 15px 0 15px 25px;
+    }
+    
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Smartphones muito pequenos */
+@media screen and (max-width: 480px) {
+    header {
+        height: 7vh;
+        flex-direction: column;
+        padding: 5px;
+    }
+    
+    .container {
+        min-height: 87vh;
+        padding: 5px;
+    }
+    
+    .container h1 {
+        font-size: 18px;
+    }
+    
+    .container h2 {
+        font-size: 12px;
+    }
+    
+    header .busca {
+        margin-top: 5px;
+    }
+    
+    header .busca input, header .busca button {
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    header .busca p {
+        font-size: 9px;
+    }
+    
+    nav ul li a {
+        font-size: 14px;
+        padding: 12px 0 12px 20px;
+    }
+    
+    nav {
+        width: 220px;
+    }
+    
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    footer {
+        font-size: 12px;
+    }
+}
+
+/* Landscape mode para smartphones */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    header {
+        height: 15vh;
+    }
+    
+    .container {
+        min-height: 75vh;
+    }
+    
+    footer {
+        height: 10vh;
+    }
+    
+    nav ul li a {
+        padding: 8px 0 8px 20px;
+        font-size: 14px;
+    }
 }

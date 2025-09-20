@@ -11,18 +11,26 @@
     <title>Vem Nasa</title>
 </head>
 <body>
+    <!-- Botão do menu mobile -->
+    <button class="menu-toggle" id="menu-toggle">
+        ☰
+    </button>
+    
     <header class="cabeca">
-        <div class="logo">
-                   </div>
+        <div class="titulo-principal">
+            <h1>Foto Astronômica do Dia - NASA</h1>
+        </div>
         <div class="busca">
             <div>
-                <input type="date" id="data" title="Pesquise um dia específico">
-                <button id="botao" title="Pesquisar"><i>🔭</i></button>
+                <input type="date" id="data" title="Pesquise um dia específico" placeholder="Selecione uma data">
+                <button id="botao" title="Pesquisar">🔭</button>
             </div>
-            <p>registro da galeria</p>
         </div>
     </header>
-    <nav>
+    <nav id="nav-menu">
+        <div class="nasa-logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo" class="nasa-logo">
+        </div>
 		<ul>
 			<li class="logo"><img alt="" src="https://i.gifer.com/origin/b1/b15425bda53ee0ec7444ddcdedb39cc1.gif" href ="https://www.nasa.gov"></li>
 			<li>
@@ -41,10 +49,19 @@
 			</ul>
 	</nav>
 	<div class="container">
-        
-        <h1>Foto fornecida pela nasa</h1>
-        <h2></h2>
-        <div class="apod-img" id="imagem-apod">
+        <h2 id="titulo-imagem"></h2>
+        <div class="apod-content">
+            <div class="apod-img" id="imagem-apod">
+                <div class="loading" id="loading">🚀 Carregando imagem da NASA...</div>
+            </div>
+            <div class="apod-description" id="descricao-apod">
+                <h3>Descrição:</h3>
+                <p id="texto-explicativo">Carregando descrição...</p>
+                <div class="apod-info">
+                    <span class="data-info" id="data-info"></span>
+                    <span class="copyright-info" id="copyright-info"></span>
+                </div>
+            </div>
         </div>
     </div>
      <footer>
