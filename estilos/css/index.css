@@ -459,16 +459,6 @@ nav ul li a:hover:before {
 .box-area {
 	width: 75%;
 }
-.logo {
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-	overflow: hidden;
-	margin: 25px auto;
-}
-.logo img {
-	width: 100%;
-}
 
 /* Mobile Menu Toggle */
 .menu-toggle {
@@ -640,11 +630,6 @@ nav ul li a:hover:before {
         font-size: 16px;
         padding: 15px 0 15px 25px;
     }
-    
-    .logo {
-        width: 100px;
-        height: 100px;
-    }
 }
 
 /* Smartphones muito pequenos */
@@ -688,11 +673,6 @@ nav ul li a:hover:before {
     
     nav {
         width: 220px;
-    }
-    
-    .logo {
-        width: 80px;
-        height: 80px;
     }
     
     footer {

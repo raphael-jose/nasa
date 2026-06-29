@@ -1,5 +1,4 @@
 const botao = document.getElementById("botao")
-const botaoHoje = document.getElementById("hoje")
 const key = 'laQUTbkbRZHvE99chEF5U8VBcDOnqgHcBH2zlnDI'
 
 let imgContainer = document.getElementById("imagem-apod")
@@ -293,8 +292,6 @@ document.addEventListener('click', function(event) {
     }
 })
 
-const req = new XMLHttpRequest()
-
 // carregando foto de hoje da APOD 
 function carregarImagemHoje() {
     const req = new XMLHttpRequest()
@@ -315,8 +312,6 @@ function carregarImagemHoje() {
 
 // Chamar a função para carregar a imagem
 carregarImagemHoje()
-
-const newReq = new XMLHttpRequest()
 
 // botao para data especifica
 botao.addEventListener("click", async function () {
