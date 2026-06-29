@@ -8,108 +8,235 @@ let dataInfo = document.getElementById("data-info")
 let copyrightInfo = document.getElementById("copyright-info")
 let loadingElement = document.getElementById("loading")
 
-// Função para traduzir texto usando múltiplas APIs para melhor qualidade
-async function traduzirTexto(texto) {
-    // Limpar o texto primeiro
-    const textoLimpo = texto.replace(/\s+/g, ' ').trim()
-    
-    try {
-        // Primeira tentativa: LibreTranslate (melhor qualidade)
-        const response = await fetch('https://libretranslate.de/translate', {
-            method: 'POST',
-            body: JSON.stringify({
-                q: textoLimpo,
-                source: 'en',
-                target: 'pt',
-                format: 'text',
-                api_key: ''
-            }),
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        
-        if (response.ok) {
-            const data = await response.json()
-            if (data.translatedText && data.translatedText.length > 10) {
-                return data.translatedText
-            }
-        }
-        
-    } catch (error) {
-        console.log('LibreTranslate falhou, tentando API alternativa:', error)
-    }
-    
-    try {
-        // Segunda tentativa: MyMemory API (backup)
-        const encodedText = encodeURIComponent(textoLimpo.substring(0, 1000)) // Limite para evitar erros
-        const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodedText}&langpair=en|pt-br&de=your@email.com`)
-        
-        if (response.ok) {
-            const data = await response.json()
-            if (data.responseStatus === 200 && data.responseData && data.responseData.translatedText) {
-                return data.responseData.translatedText
-            }
-        }
-        
-    } catch (error) {
-        console.log('MyMemory falhou, tentando tradução local:', error)
-    }
-    
-    try {
-        // Terceira tentativa: Tradução simples usando dicionário básico
-        const traducaoBasica = traduzirPalavrasComuns(textoLimpo)
-        if (traducaoBasica !== textoLimpo) {
-            return traducaoBasica
-        }
-    } catch (error) {
-        console.log('Tradução básica falhou:', error)
-    }
-    
-    // Se todas falharem, retorna o texto original
-    return textoLimpo
+const traducaoCache = new Map()
+const CHUNK_MAX_CHARS = 480
+
+const termosProtegidos = [
+    ['James Webb Space Telescope', 'Telescópio Espacial James Webb'],
+    ['Hubble Space Telescope', 'Telescópio Espacial Hubble'],
+    ['International Space Station', 'Estação Espacial Internacional'],
+    ['Milky Way Galaxy', 'Galáxia Via Láctea'],
+    ['Milky Way', 'Via Láctea'],
+    ['Andromeda Galaxy', 'Galáxia de Andrômeda'],
+    ['Solar System', 'Sistema Solar'],
+    ['Big Bang', 'Big Bang'],
+    ['Black Hole', 'Buraco Negro'],
+    ['Dark Matter', 'Matéria Escura'],
+    ['Dark Energy', 'Energia Escura'],
+    ['North America', 'América do Norte'],
+    ['South America', 'América do Sul'],
+    ['New Horizons', 'New Horizons'],
+    ['Voyager', 'Voyager'],
+    ['Cassini', 'Cassini'],
+    ['NASA', 'NASA'],
+    ['ESA', 'ESA'],
+    ['APOD', 'APOD'],
+    ['Hubble', 'Hubble'],
+    ['Spitzer', 'Spitzer'],
+    ['Chandra', 'Chandra'],
+    ['Kepler', 'Kepler'],
+    ['Perseverance', 'Perseverance'],
+    ['Curiosity', 'Curiosity'],
+    ['ISS', 'EEI'],
+    ['SDSS', 'SDSS'],
+    ['JWST', 'JWST']
+]
+
+function limparTexto(texto) {
+    return (texto || '').replace(/\s+/g, ' ').trim()
 }
 
-// Função auxiliar para tradução básica de palavras comuns
-function traduzirPalavrasComuns(texto) {
-    const dicionario = {
-        'and': 'e',
-        'the': 'o/a',
-        'of': 'de',
-        'in': 'em',
-        'to': 'para',
-        'is': 'é',
-        'was': 'foi',
-        'are': 'são',
-        'were': 'foram',
-        'this': 'este/esta',
-        'that': 'aquele/aquela',
-        'with': 'com',
-        'from': 'de',
-        'by': 'por',
-        'image': 'imagem',
-        'galaxy': 'galáxia',
-        'star': 'estrela',
-        'planet': 'planeta',
-        'space': 'espaço',
-        'universe': 'universo',
-        'nebula': 'nebulosa',
-        'telescope': 'telescópio',
-        'light': 'luz',
-        'year': 'ano',
-        'years': 'anos',
-        'million': 'milhão',
-        'billion': 'bilhão'
+function protegerTermos(texto) {
+    const mapa = new Map()
+    let protegido = texto
+
+    termosProtegidos
+        .sort((a, b) => b[0].length - a[0].length)
+        .forEach(([en, pt], index) => {
+            const escaped = en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+            const regex = new RegExp(escaped, 'gi')
+            if (!protegido.match(regex)) return
+
+            const token = `__TERM${index}__`
+            mapa.set(token, pt)
+            protegido = protegido.replace(regex, token)
+        })
+
+    return { texto: protegido, mapa }
+}
+
+function restaurarTermos(texto, mapa) {
+    let restaurado = texto
+    mapa.forEach((pt, token) => {
+        restaurado = restaurado.replaceAll(token, pt)
+    })
+    return restaurado
+}
+
+function dividirEmChunks(texto, max = CHUNK_MAX_CHARS) {
+    if (texto.length <= max) return [texto]
+
+    const chunks = []
+    const frases = texto.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [texto]
+    let atual = ''
+
+    for (const frase of frases) {
+        const pedaco = frase.trim()
+        if (!pedaco) continue
+
+        const candidato = atual ? `${atual} ${pedaco}` : pedaco
+
+        if (candidato.length <= max) {
+            atual = candidato
+            continue
+        }
+
+        if (atual) chunks.push(atual)
+
+        if (pedaco.length <= max) {
+            atual = pedaco
+            continue
+        }
+
+        const palavras = pedaco.split(' ')
+        atual = ''
+        for (const palavra of palavras) {
+            const bloco = atual ? `${atual} ${palavra}` : palavra
+            if (bloco.length <= max) {
+                atual = bloco
+            } else {
+                if (atual) chunks.push(atual)
+                atual = palavra
+            }
+        }
     }
-    
-    let textoTraduzido = texto
-    for (const [en, pt] of Object.entries(dicionario)) {
-        const regex = new RegExp(`\\b${en}\\b`, 'gi')
-        textoTraduzido = textoTraduzido.replace(regex, pt)
+
+    if (atual) chunks.push(atual)
+    return chunks.length ? chunks : [texto]
+}
+
+function traducaoInvalida(texto) {
+    if (!texto) return true
+    const aviso = /MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID/i
+    return aviso.test(texto)
+}
+
+async function traduzirComGoogle(texto) {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(texto)}`
+    const response = await fetch(url)
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const traducao = data?.[0]?.map(item => item[0]).join('')
+
+    if (!traducao || traducaoInvalida(traducao)) return null
+    return traducao
+}
+
+async function traduzirComMyMemory(texto) {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=en|pt-BR`
+    const response = await fetch(url)
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const traducao = data?.responseData?.translatedText
+
+    if (data.responseStatus !== 200 || traducaoInvalida(traducao)) return null
+    return traducao
+}
+
+async function traduzirComLingva(texto) {
+    const url = `https://lingva.ml/api/v1/en/pt/${encodeURIComponent(texto)}`
+    const response = await fetch(url)
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const traducao = data?.translation
+
+    if (!traducao || traducaoInvalida(traducao)) return null
+    return traducao
+}
+
+async function traduzirComLibreTranslate(texto) {
+    const response = await fetch('https://libretranslate.com/translate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify({
+            q: texto,
+            source: 'en',
+            target: 'pt',
+            format: 'text'
+        })
+    })
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const traducao = data?.translatedText
+
+    if (!traducao || traducaoInvalida(traducao)) return null
+    return traducao
+}
+
+async function traduzirChunk(texto) {
+    const servicos = [
+        traduzirComGoogle,
+        traduzirComMyMemory,
+        traduzirComLingva,
+        traduzirComLibreTranslate
+    ]
+
+    for (const servico of servicos) {
+        try {
+            const traducao = await servico(texto)
+            if (traducao) return traducao
+        } catch (error) {
+            console.warn('Serviço de tradução indisponível:', error.message)
+        }
     }
-    
-    return textoTraduzido
+
+    return texto
+}
+
+function posProcessarTraducao(texto) {
+    return texto
+        .replace(/\s+([,.;:!?])/g, '$1')
+        .replace(/([(\[])\s+/g, '$1')
+        .replace(/\s+([)\]])/g, '$1')
+        .replace(/\s{2,}/g, ' ')
+        .trim()
+}
+
+async function traduzirTexto(texto) {
+    const textoLimpo = limparTexto(texto)
+    if (!textoLimpo) return textoLimpo
+
+    if (traducaoCache.has(textoLimpo)) {
+        return traducaoCache.get(textoLimpo)
+    }
+
+    const { texto: textoProtegido, mapa } = protegerTermos(textoLimpo)
+    const chunks = dividirEmChunks(textoProtegido)
+    const traducoes = await Promise.all(chunks.map(traduzirChunk))
+    const resultado = posProcessarTraducao(restaurarTermos(traducoes.join(' '), mapa))
+
+    traducaoCache.set(textoLimpo, resultado)
+    return resultado
+}
+
+async function traduzirConteudoAPOD(titulo, explicacao) {
+    const [tituloTraduzido, explicacaoTraduzida] = await Promise.all([
+        traduzirTexto(titulo),
+        traduzirTexto(explicacao)
+    ])
+
+    return { tituloTraduzido, explicacaoTraduzida }
 }
 
 // Função para exibir dados da APOD
@@ -131,14 +258,15 @@ async function exibirAPOD(dados) {
         // Pegar texto completo da explicação (sem limitar tamanho)
         const explicacaoCompleta = dados.explanation || 'Descrição não disponível.'
         const tituloCompleto = dados.title || 'Título não disponível'
-        
-        console.log('Texto original completo:', explicacaoCompleta.length, 'caracteres')
-        
-        // Traduzir título e descrição completa
-        const tituloTraduzido = await traduzirTexto(tituloCompleto)
-        const explicacaoTraduzida = await traduzirTexto(explicacaoCompleta)
-        
-        console.log('Texto traduzido:', explicacaoTraduzida.length, 'caracteres')
+
+        if (textoExplicativo) {
+            textoExplicativo.textContent = 'Traduzindo conteúdo...'
+        }
+
+        const { tituloTraduzido, explicacaoTraduzida } = await traduzirConteudoAPOD(
+            tituloCompleto,
+            explicacaoCompleta
+        )
         
         // Verificar se é vídeo ou imagem
         let mediaElement = ''
@@ -254,14 +382,19 @@ async function exibirAPOD(dados) {
 
 // Função para formatar o texto explicativo
 function formatarTextoExplicativo(texto) {
-    // Dividir o texto em parágrafos
-    const paragrafos = texto.split(/\n\n|\. [A-Z]/).filter(p => p.trim().length > 0)
-    
-    if (paragrafos.length <= 1) {
+    const paragrafos = texto
+        .split(/\n{2,}/)
+        .flatMap(bloco => bloco.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ú"(\[])/))
+        .map(p => p.trim())
+        .filter(p => p.length > 0)
+
+    if (!paragrafos.length) {
         return `<p>${texto}</p>`
     }
-    
-    return paragrafos.map(p => `<p>${p.trim()}${p.endsWith('.') ? '' : '.'}</p>`).join('')
+
+    return paragrafos
+        .map(p => `<p>${p}${/[.!?]$/.test(p) ? '' : '.'}</p>`)
+        .join('')
 }
 
 // Menu mobile toggle
